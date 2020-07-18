@@ -1,0 +1,80 @@
+#delete database &user
+USE mysql;
+DROP DATABASE IF EXISTS `pythonnetwork`;
+DELETE FROM USER WHERE USER='pythonnetwork';
+FLUSH PRIVILEGES; #刷新系统权限
+
+#creat database & user
+CREATE DATABASE pythonnetwork DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+GRANT ALL PRIVILEGES on pythonnetwork.* TO 'pythonnetwork'@'localhost' IDENTIFIED by 'promote_1' with GRANT OPTION;
+grant all PRIVILEGES on pythonnetwork.* to 'pythonnetwork'@'%' IDENTIFIED by 'promote_1' with grant option;
+
+FLUSH PRIVILEGES;
+
+use  pythonnetwork;
+set global max_connections=2000;
+set global group_concat_max_len=102400;
+
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS `info`;
+CREATE TABLE `info` (
+  `info_id` int(10) NOT NULL,
+  `title` varchar(30) DEFAULT NULL,
+  `info` varchar(255) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+ `user_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`info_id`),
+  KEY `user_id` (`user_id`),
+ CONSTRAINT `info_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `user_id` int(10) NOT NULL AUTO_INCREMENT,
+  `username` varchar(10) COLLATE utf8_bin NOT NULL,
+  `password` varchar(15) COLLATE utf8_bin NOT NULL,
+  `emil` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `img` varchar(25) COLLATE utf8_bin DEFAULT NULL,
+  `lasttime` datetime DEFAULT NULL,
+  `authority` int(2) NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+
+DROP TABLE IF EXISTS `message` ;
+CREATE TABLE `message` (
+  `message_id` int(10) NOT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  PRIMARY KEY (`message_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `collect` ;
+CREATE TABLE `collect` (
+  `collect_id` int(10) NOT NULL,
+  `user_id` int(10) DEFAULT NULL,
+  `info_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`collect_id`),
+  KEY `user_id` (`user_id`),
+  KEY `info_id` (`info_id`),
+  CONSTRAINT `collect_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `collect_ibfk_2` FOREIGN KEY (`info_id`) REFERENCES `info` (`info_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `info_message` ;
+CREATE TABLE `info_message` (
+  `info_message_id` int(10) NOT NULL,
+  `info_id` int(10) DEFAULT NULL,
+  `message_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`info_message_id`),
+  KEY `info_id` (`info_id`),
+  KEY `message_id` (`message_id`),
+  CONSTRAINT `info_message_ibfk_1` FOREIGN KEY (`info_id`) REFERENCES `info` (`info_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `info_message_ibfk_2` FOREIGN KEY (`message_id`) REFERENCES `message` (`message_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+

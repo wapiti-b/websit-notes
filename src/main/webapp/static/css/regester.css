@@ -1,0 +1,102 @@
+#div1 {
+
+   /* background-image: url("../images/login_bg.png");*/
+    width: 350px;
+    height: 339px;
+    margin: 0 auto;
+    margin-top: 100px;
+    /*border:2px blue solid;*/
+    background-color: black;
+
+
+
+
+    padding:10px;
+    border-radius: 10px;
+
+}
+
+.user{
+  /*  background-color:darkblue;*/
+    width: 300px;
+    height: 30px;
+    margin:0 auto;
+    text-align:left;
+
+
+}
+.passworld{
+   /* background-color: rebeccapurple;*/
+    width: 300px;
+    height: 30px;
+    margin:0 auto;
+    margin-top: 15px;
+}
+.main{
+    display:block;
+    width:235px;
+    height: 25px;
+    float:right;
+}
+
+#bs{
+    width: 290px;
+    height: 35px;
+
+    /*background-color: chartreuse;*/
+    margin:40px 30px 10px 30px;
+}
+#bs input:hover{
+    background-color: white;
+}
+.buttens1{
+
+    background-color: lightgray;
+    width:110px;
+    height: 35px;
+    float:left;
+
+}
+.buttens2{
+    background-color: lightgray;
+    width:110px;
+    height: 35px;
+    float:right;
+}
+#title{
+    text-align: center;
+
+}
+#xxx{
+    margin-right:2em;
+    height: 25px;
+    float:right;
+
+
+}
+img{
+    display: block;
+    height:30px;
+    margin-top: 5px;
+    float:left;
+}
+
+body{
+    /*background-color: skyblue;*/
+    background-image: url("../images/d.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    opacity:0.68;
+    color:white;
+}
+a{
+    text-decoration:none;
+}
+
+a:link,a:visited{color: gray;}
+a:hover{color:white}

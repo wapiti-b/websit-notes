@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd 
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd 
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 哪些包需要扫描 -->
+	<context:component-scan base-package="com.promote" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	</context:component-scan>
+	
+	<!-- 启用注解 -->
+	<context:annotation-config />
+	
+	
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" >
+		<!-- <property name="converters">
+			<list>
+				<bean class="com.itshidu.ssm.utils.DateConverter" >
+					<property name="patterns" >
+						<list> 长值放上面，例如前两个
+							<value>yyyy-MM-dd hh:mm:ss</value>
+							<value>yyyy-MM-dd</value>
+							<value>yyyy.MM.dd</value>
+							<value>yyyy/MM/dd hh:mm:ss</value>
+							<value>yyyy年MM月dd日 hh:mm:ss</value>
+							<value>yyyy年MM月dd日</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property> -->
+	</bean>
+	<mvc:annotation-driven conversion-service="conversionService">
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8"></constructor-arg>
+				<!-- <property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property> -->
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<!-- 静态资源映射，可以配置多行 -->
+	<mvc:resources mapping="/res/**" location="classpath:/static/" /> 
+	<mvc:default-servlet-handler/>  
+	
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/user/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
+	</bean>
+	<!-- 配置freeMarker视图解析器 -->
+    <bean id="viewResolverFtl" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="contentType" value="text/html; charset=UTF-8"/>
+        <property name="exposeRequestAttributes" value="true" />
+        <property name="exposeSessionAttributes" value="true" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="cache" value="true" />
+        <property name="suffix" value=".ftl" />
+        <property name="order" value="0"/>
+    </bean>
+    <!-- freemarker的配置 -->
+	<bean id="freemarkerConfigurer"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="classpath:/templates" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">10</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="number_format">#.##</prop>
+			</props>
+		</property>
+	</bean>
+    
+
+
+
+	<!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+		p:defaultEncoding="UTF-8" p:maxUploadSize="5400000">
+	</bean>
+	
+	
+</beans>
