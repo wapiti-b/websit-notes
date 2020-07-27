@@ -108,6 +108,7 @@ public class UserControl {
 		if(request.getSession().getAttribute("userId")!=null) {
 			return "main";
 		}
+		//测试
 		return "login";
 	}
 	
